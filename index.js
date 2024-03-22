@@ -221,9 +221,11 @@ const currentTime = new Date().toLocaleString('en-US', {
 // Connect to the MongoDB database on server start
 connectToDatabase()
   .then(() => {
-    app.listen(3000, () => {
-      console.log('Server started on port 3000');
-    });
+    // Use PORT provided in environment or default to 3000
+const port = process.env.PORT || 3000;
+
+// Listen on `port` and 0.0.0.0
+app.listen(port, "0.0.0.0",);
   })
   .catch(error => {
     console.error('Failed to connect to the MongoDB database:', error);
