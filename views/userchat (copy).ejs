@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>User Chat</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>  window.addEventListener('message', (event) => {
+      if (event.data.message) {
+        $('#iframe-input').val(event.data.message);
+        $('#message-form').submit();
+      }
+//////////onclick message
+  if (event.data === 'scrollToBottom') {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+/////////
+//////scroll-oninput
+window.scrollTo(0, document.body.scrollHeight);
+////// 
+    });
+  </script>
+</head>
+<body>
+  <div>
+    <h3>CHAT-BOX</h3>
+    <ul id="message-list">
+      <% user.messages.forEach(message => { %>
+        <li><%= message %></li>
+      <% }); %>
+    </ul>
+    <form id="message-form" method="post" action="/user/<%= user.id %>">
+      <input id="iframe-input" type="text" name="message" hidden>
+      <button type="submit" hidden >Send</button>
+    </form>
+  </div>      
+  <script>
+    // Update messages list every 1 second
+    setInterval(() => {
+      $.ajax({
+        url: location.href,
+        method: 'GET',
+        success: (data) => {
+          const messageList = $(data).find('#message-list');
+          $('#message-list').html(messageList.html());
+        }
+      });
+    }, 1000);
+
+    // Handle form submission with jQuery
+    $('#message-form').on('submit', (event) => {
+      event.preventDefault();
+      const message = $('input[name="message"]').val();
+      $.ajax({
+        url: $('#message-form').attr('action'),
+        method: 'POST',
+        data: { message },
+        success: () => {
+          // Clear input field after submitting
+          $('input[name="message"]').val('');
+        }
+      });
+    });
+  </script>
+<script>
+window.onload = function() {
+  window.scrollTo(0, document.body.scrollHeight);
+};
+</script>        
+</body>
+</html>
