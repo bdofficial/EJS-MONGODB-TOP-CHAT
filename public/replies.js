@@ -16,13 +16,22 @@ processMessage(`⎎ADMIN: HELLO`);
   else if (message.includes("হাই")){
   processMessage(`⎎ADMIN: হেলো`);
   }
-  else if (message.includes("WHAT IS YOU NAME")){
+  else if (message.includes("WHAT IS YOUR NAME")){
   processMessage(`⎎ADMIN: SABBIR`);
   }
   else if (message.includes("apner name ki")){
   processMessage(`⎎ADMIN: SABBIR`);
 }
 else if (message.includes("আপনার নাম কী")){
+  processMessage(`⎎ADMIN: সাব্বির`);
+}
+  else if (message.includes("HOW OLD ARE YOU")){
+  processMessage(`⎎ADMIN: SABBIR`);
+  }
+  else if (message.includes("apner boyosh kotyo")){
+  processMessage(`⎎ADMIN: SABBIR`);
+}
+else if (message.includes("আপনার বয়স কত")){
   processMessage(`⎎ADMIN: সাব্বির`);
 }
   else if (message.includes("✓order")){
