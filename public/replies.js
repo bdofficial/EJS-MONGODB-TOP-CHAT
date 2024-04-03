@@ -8,11 +8,16 @@ const receivedMessage = event.data.message;
   processMessage(receivedMessage);
 setTimeout(() => {
 const message = event.data.message.toLowerCase();
-if (message.includes("hi")) {
-const parts = receivedMessage.split(/[@:]/);
-const name = parts[1].trim();
-processMessage(`⎎ADMIN: HELLO`);
+if (message.includes("✓order")){
+  processMessage(`⎎ADMIN: YOUR ORDER HAVE BEEN RECEIVED.`);
 }
+
+else if (message === "hi") {
+      const parts = receivedMessage.split(/[@:]/);
+      const name = parts[1].trim();
+      processMessage(`⎎ADMIN: HELLO`);
+  }
+
   else if (message.includes("হাই")){
   processMessage(`⎎ADMIN: হেলো`);
   }
@@ -34,9 +39,6 @@ else if (message.includes("আপনার নাম কী")){
 else if (message.includes("আপনার বয়স কত")){
   processMessage(`⎎ADMIN: ২৩`);
 }
-  else if (message.includes("✓order")){
-  processMessage(`⎎ADMIN: YOUR ORDER HAVE BEEN RECEIVED.`);
-  }
   else if (message.includes("ki product payoua jay")){
   processMessage(`⎎ADMIN: SELADER SHIRT PANT T-SHIRT HOODIE`);
   }
