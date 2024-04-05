@@ -11,18 +11,16 @@ const message = event.data.message.toLowerCase();
 if (message.includes("✓order")){
   processMessage(`⎎ADMIN: YOUR ORDER HAVE BEEN RECEIVED.`);
 }
-else if (message == "hi") {
-      const parts = receivedMessage.split(/[@:]/);
-      const name = parts[1].trim();
+else if (message == "hi"){
       processMessage(`⎎ADMIN: HELLO`);
   }
-  else if (message == "হাই"){
+else if (message == "হাই"){
   processMessage(`⎎ADMIN: হেলো`);
   }
-  else if (message.includes("what is your name")){
+else if (message.includes("what is your name")){
       processMessage(`⎎ADMIN: SABBIR`);
     }
-  else if (message.includes("apner name ki")){
+else if (message.includes("apner name ki")){
   processMessage(`⎎ADMIN: SABBIR`);
 }
 else if (message.includes("আপনার নাম কী")){
