@@ -11,7 +11,7 @@ const message = event.data.message.toLowerCase();
 if (message.includes("✓order")){
   processMessage(`⎎ADMIN: YOUR ORDER HAVE BEEN RECEIVED.`);
 }
-else if (message == "hi"){
+else if (message = "hi"){
       processMessage(`⎎ADMIN: HELLO`);
   }
 else if (message == "হাই"){
