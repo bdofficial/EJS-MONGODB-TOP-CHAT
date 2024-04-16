@@ -11,7 +11,6 @@
       const element = document.body;
       element.scrollIntoView({ block: 'end', inline: 'end' });
       }
-      window.parent.postMessage('ok', '*');
     });
   </script>
 <script src="/replies.js"></script>
@@ -42,7 +41,7 @@
     </ul>
   </main>
   <pre>
-
+    
   </pre>
   <form hidden id="message-form" method="post" action="/user/<%= user.id %>">
     <input id="iframe-input" type="text" name="message">
@@ -91,3 +90,4 @@
   </script>
 </body>
     </html>
+  
