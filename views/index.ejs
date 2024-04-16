@@ -9,6 +9,14 @@
     color: white;
     font-size:3rem;
     text-align: center;
+    margin: 0;
+    }
+    h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  height: 100dvh;
     }
   </style>
   <title>Chat Room - Home</title>
@@ -37,13 +45,7 @@
   </script>
 </head>
 <body>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
   <h1>SAVE YOUR INFO</h1>
-
   <form hidden action="/" method="POST" onsubmit="concatenateInputs()">
     <label for="name">Name:</label>
     <input type="text" name="name" id="name" placeholder="Enter your name" required>
