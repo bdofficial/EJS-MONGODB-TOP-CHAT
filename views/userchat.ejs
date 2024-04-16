@@ -10,7 +10,6 @@
       if (event.data === 'scrollToBottom') {           
       const element = document.body;
       element.scrollIntoView({ block: 'end', inline: 'end' });
-        window.parent.postMessage('ok', '*');
       }
     });
   </script>

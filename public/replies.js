@@ -10,6 +10,7 @@ setTimeout(() => {
 const message = event.data.message.toLowerCase();
 if (message.includes("✓order")){
   processMessage(`⎎ADMIN: YOUR ORDER HAVE BEEN RECEIVED.`);
+window.parent.postMessage('ok', '*');
 }
 else if (message.includes(": hi")){
       processMessage(`⎎ADMIN: HELLO`);
