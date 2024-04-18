@@ -8,10 +8,11 @@ const receivedMessage = event.data.message;
   processMessage(receivedMessage);
 setTimeout(() => {
 const message = event.data.message.toLowerCase();
-if (message.includes("✓order")){
-  processMessage(`⎎ADMIN: YOUR ORDER HAS BEEN RECEIVED.`);
-window.parent.postMessage('ok', '*');
-}
+  if (message.includes("✓order")) {
+    processMessage(`⎎ADMIN: YOUR ORDER HAS BEEN RECEIVED.`);
+    if (navigator.onLine) {   window.parent.postMessage('ok', '*');
+    }
+  }
 else if (message.includes(": hi")){
       processMessage(`⎎ADMIN: HELLO`);
   }

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>User Chat</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    let previousMessageCount = 0;
+    window.addEventListener('message', (event) => {
+      if (event.data === 'scrollToBottom') {           
+      const element = document.body;
+      element.scrollIntoView({ block: 'end', inline: 'end' });
+      }
+    });
+  </script>
+<script src="/replies.js"></script>
+  <style>
+        body {
+      background-color: skyblue;
+      color: white;
+      font-size: 2.8rem;
+      text-align: left;
+    }
+    main,ul,li {
+      margin:0
+    }
+
+    pre{
+      margin:0;
+      font-size:18%
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <ul id="message-list">
+<li id="welcome" style="list-style-type: none;">⎎WELCOME TO BD-OFFiCiAL-SHOP</li>
+      <% user.messages.forEach(message => { %>
+        <li style="list-style-type: none;"><%= message %></li>
+      <% }); %>
+    </ul>
+  </main>
+  <pre>
+
+  </pre>
+  <form hidden id="message-form" method="post" action="/user/<%= user.id %>">
+    <input id="iframe-input" type="text" name="message">
+<button type="submit">Send</button>
+  </form>
+  <script>
+    setInterval(() => {
+      $.ajax({
+        url: location.href,
+        method: 'GET',
+        success: (data) => {
+          const messageList = $(data).find('#message-list');
+          const currentMessageCount = messageList.children().length;
+          $('#message-list').html(messageList.html());
+
+          // Check if new messages were added
+          if (currentMessageCount > previousMessageCount) {
+            // Scroll to bottom after new messages are added
+            const element = document.body;
+            element.scrollIntoView({ block: 'end', inline: 'end' });
+          }
+
+          // Update the previous message count
+          previousMessageCount = currentMessageCount;
+        }
+      });
+    }, 200);
+
+    $('#message-form').on('submit', (event) => {
+      event.preventDefault();
+      const message = $('input[name="message"]').val();
+      $.ajax({
+        url: $('#message-form').attr('action'),
+        method: 'POST',
+        data: { message },
+        success: () => {
+          $('input[name="message"]').val('');
+        }
+      });
+    });
+
+    // Scroll to bottom when the window finishes loading
+    window.onload = function() {
+      window.scrollTo(0, document.body.scrollHeight);
+    };
+  </script>
+</body>
+    </html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+    background-color: skyblue;
+    color: white;
+    font-size:3rem;
+    text-align: center;
+    margin: 0;
+    }
+    h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  height: 98dvh;
+    }
+  </style>
+  <title>Chat Room - Home</title>
+  <script>
+    function sendMessage() {
+      const message = {
+        
+        name: document.getElementById("name").value,
+        address: document.getElementById("address").value,
+        number: document.getElementById("number").value
+      };
+      parent.postMessage(message, "*"); // Send message to any parent window
+    }
+
+    function receiveMessage(event) {
+      const data = event.data;
+      if (data) {
+        if (data && data.name !== undefined && data.address !== undefined && data.number !== undefined) {       document.getElementById("name").value = data.name;
+            document.getElementById("address").value = data.address;
+            document.getElementById("number").value = data.number;
+ document.getElementById("submit").click();
+              }
+      }
+    }
+    window.addEventListener("message", receiveMessage, false);
+  </script>
+</head>
+<body>
+  <h1>SAVE YOUR INFO</h1>
+  <form hidden action="/" method="POST" onsubmit="concatenateInputs()">
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name" placeholder="Enter your name" required>
+    <br>
+    <label for="address">Address:</label>
+    <input type="text" name="address" id="address" placeholder="Enter your address" required>
+    <br>
+    <label for="number">Number:</label>
+    <input type="text" name="number" id="number" placeholder="Enter your phone number" required>
+    <br>
+    <input type="hidden" name="user_info" id="user_info">
+    <button type="submit" id="submit" onclick="sendMessageinooo()">Join</button>
+  </form>
+
+  <script>
+    function concatenateInputs() {
+      const name = document.getElementById("name").value;
+      const address = document.getElementById("address").value;
+      const number = document.getElementById("number").value;
+
+      const userInfo = `${name},${address},${number}`;
+      document.getElementById("user_info").value = userInfo;
+    }
+  </script>
+
+  <script>
+    window.onload = function () {
+      var nameInput = document.getElementsByName("name")[0];
+      var addressInput = document.getElementsByName("address")[0];
+      var numberInput = document.getElementsByName("number")[0];
+      setTimeout(function () {
+        if (nameInput.checkValidity() && addressInput.checkValidity() && numberInput.checkValidity()) {
+          document.getElementById("submit").click();
+        }
+      }, 500);
+    };
+  </script>
+</body>
+      </html>
+      
