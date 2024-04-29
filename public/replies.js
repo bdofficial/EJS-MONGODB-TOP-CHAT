@@ -88,5 +88,5 @@ else if (message.includes("what is your phone number") || message.includes("what
 ////////////////
 ///////////////
 //////////////
-         }, 4000);
+         }, 3000);
 });
