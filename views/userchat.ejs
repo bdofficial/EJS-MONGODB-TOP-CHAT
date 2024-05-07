@@ -73,6 +73,7 @@
     $('#message-form').on('submit', (event) => {
       event.preventDefault();
       const message = $('input[name="message"]').val();
+/////////////////
       $.ajax({
         url: $('#message-form').attr('action'),
         method: 'POST',
@@ -81,6 +82,7 @@
           $('input[name="message"]').val('');
         }
       });
+////////////////
     });
 
     // Scroll to bottom when the window finishes loading
