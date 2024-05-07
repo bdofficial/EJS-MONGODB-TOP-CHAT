@@ -77,56 +77,56 @@ res.status(500).send('Internal Server Error');
 });
 /////////
 //////////userid
-app.get('/user/:id', async (req, res) => {
+// Combined route for both user chat and chatroom
+app.get('/:id', async (req, res) => {
   const userId = req.params.id;
   try {
-/////Find the user id
+    // Find the user with the given ID
     const user = await usersCollection.findOne({ id: userId });
-////////
-/////if user not found
     if (!user) {
       return res.status(404).send('User not found');
     }
-/////Render the userchat page with the user's messages
-  res.render('userchat', { user });
-///////
-  } 
-//////catch error
-catch (error) {
+    // If the URL contains "/chatroom", retrieve chat messages for the user
+    // from the chat collection, otherwise render the userchat page with the user's messages
+    if (req.originalUrl.includes('/chatroom')) {
+      const chatMessages = await chatCollection.find({ userId }).sort({ _id: 1 }).toArray();
+      res.render('userchat', { user, messages: chatMessages.map(msg => msg.message) });
+    } else {
+      res.render('userchat', { user });
+    }
+  } catch (error) {
     console.error('Failed to retrieve user:', error);
-res.status(500).send('Internal Server Error');
+    res.status(500).send('Internal Server Error');
   }
-//////
 });
-/////
-////////async post
-app.post('/user/:id', async (req, res) => {
+
+// Combined route for both user chat and chatroom post requests
+app.post('/:id', async (req, res) => {
   const userId = req.params.id;
   const message = req.body.message;
   const currentTime = new Date().toLocaleString('en-US', {
-  timeZone: 'Asia/Dhaka',
-  month: 'numeric',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  hour12: true
-});
-//////Get the current timestamp
+    timeZone: 'Asia/Dhaka',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  });
   try {
-//////Find the user with the given ID
+    // Find the user with the given ID
     const user = await usersCollection.findOne({ id: userId });
     if (!user) {
       return res.status(404).send('User not found');
     }
-////// Add the new message to the user's messages
+    // Add the new message to the user's messages
     user.messages.push(message);
     user.lastMessageTime = currentTime; // Update the lastMessageTime property with the current timestamp
     // Update the user document in the users collection
     await usersCollection.updateOne({ id: userId }, { $set: { messages: user.messages, lastMessageTime: currentTime } });
     // Insert the new message into the chat collection with the sender's ID
     await chatCollection.insertOne({ userId, message });
-    // Redirect back to the user chat page
-res.redirect(`/user/${userId}`);
+    // Redirect back to the appropriate page based on the URL
+    res.redirect(req.originalUrl);
   } catch (error) {
     console.error('Failed to update user:', error);
     res.status(500).send('Internal Server Error');
@@ -159,57 +159,7 @@ catch (error) {
 res.status(500).send('Internal Server Error');
   }
 });
-///////chatroom get
-app.get('/chatroom/user/:id', async (req, res) => {
-  const userId = req.params.id;
-  try {
-    // Find the user with the given ID
-    const user = await usersCollection.findOne({ id: userId });
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
-    // Retrieve chat messages for the user from the chat collection, sorted in ascending order
-    const chatMessages = await chatCollection.find({ userId }).sort({ _id: 1 }).toArray();
-    // Render the user chat page with the user's messages
-    res.render('userchat', { user, messages: chatMessages.map(msg => msg.message) });
-  } catch (error) {
-    console.error('Failed to retrieve user:', error);
-res.status(500).send('Internal Server Error');
-  }
-});
-//////chatroom
-app.post('/chatroom/user/:id', async (req, res) => {
-  const userId = req.params.id;
-  const message = req.body.message;
-const currentTime = new Date().toLocaleString('en-US', {
-  timeZone: 'Asia/Dhaka',
-  month: 'numeric',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  hour12: true
-});
- // Get the current timestamp
-  try {
-    // Find the user with the given ID
-    const user = await usersCollection.findOne({ id: userId });
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
-    // Add the new message to the user's messages
-    user.messages.push(message);
-    user.lastMessageTime = currentTime; // Update the lastMessageTime property with the current timestamp
-    // Update the user document in the users collection
-    await usersCollection.updateOne({ id: userId }, { $set: { messages: user.messages, lastMessageTime: currentTime } });
-    // Insert the new message into the chat collection with the sender's ID
-    await chatCollection.insertOne({ userId, message });
-    // Redirect back to the user chat page
-res.redirect(`/chatroom/user/${userId}`);
-  } catch (error) {
-    console.error('Failed to update user:', error);
-res.status(500).send('Internal Server Error');
-  }
-});
+
 // Connect to the MongoDB database on server start
 connectToDatabase()
   .then(() => {
