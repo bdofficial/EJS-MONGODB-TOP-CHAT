@@ -5,7 +5,7 @@ function processMessage(message) {
 
 window.addEventListener('message', (event) => {
 const receivedMessage = event.data.message;
-if (message !== '') {
+if (receivedMessage !== '') {
 processMessage(receivedMessage);
 }
 setTimeout(() => {
