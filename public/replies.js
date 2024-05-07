@@ -5,9 +5,10 @@ function processMessage(message) {
 
 window.addEventListener('message', (event) => {
 const receivedMessage = event.data.message;
-if (receivedMessage !== '') {
+  if (typeof receivedMessage === 'string') {
+      // Process the message
 processMessage(receivedMessage);
-}
+  }
 setTimeout(() => {
 const message = event.data.message.toLowerCase();
 
