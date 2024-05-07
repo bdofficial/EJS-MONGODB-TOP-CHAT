@@ -6,12 +6,10 @@ function processMessage(message) {
 window.addEventListener('message', (event) => {
 const receivedMessage = event.data.message;
   if (typeof receivedMessage === 'string') {
-      // Process the message
 processMessage(receivedMessage);
   }
 setTimeout(() => {
 const message = event.data.message.toLowerCase();
-
 if (message.includes("✓order")) {
     processMessage(`⎎ADMIN: YOUR ORDER HAS BEEN RECEIVED.`);
     if (navigator.onLine) {   window.parent.postMessage('ok', '*');}

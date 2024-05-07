@@ -99,7 +99,7 @@ res.status(500).send('Internal Server Error');
 //////
 });
 /////
-////////async post
+////////async
 app.post('/user/:id', async (req, res) => {
   const userId = req.params.id;
   const message = req.body.message;
@@ -111,14 +111,14 @@ app.post('/user/:id', async (req, res) => {
   minute: 'numeric',
   hour12: true
 });
-//////Get the current timestamp
+ // Get the current timestamp
   try {
-//////Find the user with the given ID
+    // Find the user with the given ID
     const user = await usersCollection.findOne({ id: userId });
     if (!user) {
       return res.status(404).send('User not found');
     }
-////// Add the new message to the user's messages
+    // Add the new message to the user's messages
     user.messages.push(message);
     user.lastMessageTime = currentTime; // Update the lastMessageTime property with the current timestamp
     // Update the user document in the users collection
@@ -132,7 +132,7 @@ res.redirect(`/user/${userId}`);
     res.status(500).send('Internal Server Error');
   }
 });
-/////chatroom get
+/////chatroom
 app.get('/chatroom', async (req, res) => {
   try {
     // Retrieve all chat messages from the chat collection, sorted in descending order
@@ -159,9 +159,10 @@ catch (error) {
 res.status(500).send('Internal Server Error');
   }
 });
-///////chatroom get
+///////
 app.get('/chatroom/user/:id', async (req, res) => {
   const userId = req.params.id;
+
   try {
     // Find the user with the given ID
     const user = await usersCollection.findOne({ id: userId });
@@ -190,6 +191,7 @@ const currentTime = new Date().toLocaleString('en-US', {
   hour12: true
 });
  // Get the current timestamp
+
   try {
     // Find the user with the given ID
     const user = await usersCollection.findOne({ id: userId });
@@ -213,10 +215,12 @@ res.status(500).send('Internal Server Error');
 // Connect to the MongoDB database on server start
 connectToDatabase()
   .then(() => {
-///// Used PORT 3000
-    app.listen(3000);
+    // Use PORT provided in environment or default to 3000
+const port = process.env.PORT || 3000;
+
+// Listen on `port` and 0.0.0.0
+app.listen(port, "0.0.0.0",);
   })
-/////catch error
   .catch(error => {
     console.error('Failed to connect to the MongoDB database:', error);
   });
